@@ -13,7 +13,7 @@ public class OperatorControlCommand extends CommandBase {
 
     @Override
     public void execute() {
-        RobotMap.drivetrain.driveDifferential(RobotMap.joystick.getYAxis(), RobotMap.joystick.getXAxis());
+        RobotMap.drivetrain.driveDifferential(RobotMap.joystick.getXAxis(), -RobotMap.joystick.getYAxis());
     }
 
     @Override

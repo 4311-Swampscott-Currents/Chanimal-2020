@@ -11,14 +11,15 @@ import frc.robot.commands.OperatorControlCommand;
 /** Represents the robot's drivetrain, namely, the 4 motors which control robot movement. */
 public class Drivetrain implements Subsystem {
 
-    public WPI_TalonFX frontLeftFalcon = new WPI_TalonFX(0);
-    public WPI_TalonFX backLeftFalcon = new WPI_TalonFX(0);
-    public WPI_TalonFX frontRightFalcon = new WPI_TalonFX(0);
-    public WPI_TalonFX backRightFalcon = new WPI_TalonFX(0);
+    public WPI_TalonFX frontLeftFalcon = new WPI_TalonFX(11);
+    public WPI_TalonFX backLeftFalcon = new WPI_TalonFX(12);
+    public WPI_TalonFX frontRightFalcon = new WPI_TalonFX(13);
+    public WPI_TalonFX backRightFalcon = new WPI_TalonFX(14);
 
     public DifferentialDrive driveController = new DifferentialDrive(frontLeftFalcon, frontRightFalcon);
 
     public Drivetrain() {
+        driveController.setSafetyEnabled(false);
         backLeftFalcon.follow(frontLeftFalcon);
         backRightFalcon.follow(frontRightFalcon);
         backLeftFalcon.setInverted(InvertType.FollowMaster);
