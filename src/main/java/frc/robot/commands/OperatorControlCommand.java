@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
@@ -13,7 +12,7 @@ public class OperatorControlCommand extends CommandBase {
 
     @Override
     public void execute() {
-        RobotMap.drivetrain.driveDifferential(RobotMap.joystick.getYAxis(), RobotMap.joystick.getXAxis());
+        RobotMap.drivetrain.driveDifferential(RobotMap.joystick.getYAxis(), -RobotMap.joystick.getXAxis());
     }
 
     @Override

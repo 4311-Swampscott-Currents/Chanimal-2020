@@ -9,6 +9,7 @@ package frc.robot;
 
 import org.swampscottcurrents.serpentframework.FastRobot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Preferences;
 
 /**
@@ -23,5 +24,10 @@ public class Robot extends FastRobot {
     public void robotStart() {
         Preferences.getInstance().removeAll();
         RobotMap.initialize();
+    }
+
+    @Override
+    public void robotUpdate() {
+        NetworkTableInstance.getDefault().getEntry("robotOrientationY").setDouble(RobotMap.drivetrain.navXGyroscope.getAngle());
     }
 }

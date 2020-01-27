@@ -51,7 +51,6 @@ public class FastRobot extends RobotBase {
         robotTimer.start();
         HAL.observeUserProgramStarting();
         robotStart();
-        updateAllianceInformation();
         while (!Thread.currentThread().isInterrupted() && competitionInProgress) {
             if(isDisabled()) {
                 disabled();
@@ -118,12 +117,10 @@ public class FastRobot extends RobotBase {
     }
 
     public final void disabled() {
-        updateAllianceInformation();
         HAL.observeUserProgramDisabled();
         disabledStart();
         updateTimeDelta();
         while(isDisabled() && competitionInProgress) {
-            updateAllianceInformation();
             robotUpdate();
             CommandScheduler.getInstance().run();
             disabledUpdate();
@@ -151,18 +148,5 @@ public class FastRobot extends RobotBase {
     private void updateTimeDelta() {
         timeDelta = robotTimer.get() - lastUpdateTime;
         lastUpdateTime = robotTimer.get();
-    }
-    
-    private void updateAllianceInformation() {
-        Alliance alliance = DriverStation.getInstance().getAlliance();
-        if(alliance == Alliance.Red) {
-            NetworkTableInstance.getDefault().getEntry("sf.alliance").setString("RED");
-        }
-        else if(alliance == Alliance.Blue) {
-            NetworkTableInstance.getDefault().getEntry("sf.alliance").setString("BLUE");
-        }
-        else {
-            NetworkTableInstance.getDefault().getEntry("sf.alliance").setString("UNKNOWN");
-        }
     }
 }
