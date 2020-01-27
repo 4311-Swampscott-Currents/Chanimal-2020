@@ -17,8 +17,8 @@ public class DriveStraightCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        RobotMap.drivetrain.frontLeftFalcon.set(ControlMode.Position, feetToMove * RobotMap.motorRotationsPerFoot);
-        RobotMap.drivetrain.frontRightFalcon.set(ControlMode.Position, feetToMove * RobotMap.motorRotationsPerFoot);
+        RobotMap.drivetrain.frontLeftFalcon.set(ControlMode.MotionMagic, feetToMove * RobotMap.motorRotationsPerFoot);
+        RobotMap.drivetrain.frontRightFalcon.set(ControlMode.MotionMagic, feetToMove * RobotMap.motorRotationsPerFoot);
     }
 
     @Override
