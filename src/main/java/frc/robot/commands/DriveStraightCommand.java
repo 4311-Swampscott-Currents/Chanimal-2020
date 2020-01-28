@@ -24,7 +24,7 @@ public class DriveStraightCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         //get drivetrain wheels within 0.1 ft of target before stopping
-        return RobotMap.drivetrain.frontLeftFalcon.getClosedLoopError() / RobotMap.motorRotationsPerFoot < 0.1 && RobotMap.drivetrain.frontRightFalcon.getClosedLoopError() / RobotMap.motorRotationsPerFoot < 0.1;
+        
     }
 
     @Override

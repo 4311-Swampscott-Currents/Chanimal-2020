@@ -20,6 +20,9 @@ public class Drivetrain implements Subsystem {
 
     public Drivetrain() {
         driveController.setSafetyEnabled(false);
+
+         TalonFXConfiguration       
+        
         backLeftFalcon.follow(frontLeftFalcon);
         backRightFalcon.follow(frontRightFalcon);
         backLeftFalcon.setInverted(InvertType.FollowMaster);
