@@ -38,12 +38,12 @@ public class ConfigurableJoystick extends Joystick {
     }
 
     /** Returns the current button binding for a certain action. */
-    public int getJoystickButtonNumber(String buttonName) {
+    public final int getJoystickButtonNumber(String buttonName) {
         return Preferences.getInstance().getInt(buttonName, 0);
     }
 
     /** Returns the current setting for a joystick parameter. */
-    public double getJoystickParameter(String parameter) {
+    public final double getJoystickParameter(String parameter) {
         return Preferences.getInstance().getDouble(parameter, 0);
     }
 

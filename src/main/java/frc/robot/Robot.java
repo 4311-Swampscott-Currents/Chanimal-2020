@@ -11,6 +11,8 @@ import org.swampscottcurrents.serpentframework.FastRobot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ManualControlCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,14 +22,21 @@ import edu.wpi.first.wpilibj.Preferences;
  * project.
  */
 public class Robot extends FastRobot {
+
+    public static Robot instance;
+    
     @Override
     public void robotStart() {
+        instance = this;
         Preferences.getInstance().removeAll();
         RobotMap.initialize();
     }
 
     @Override
     public void robotUpdate() {
+        if(RobotMap.joystick.getButtonReleased("Toggle Manual Control")) {
+            CommandScheduler.getInstance().schedule(new ManualControlCommand());
+        }
         NetworkTableInstance.getDefault().getEntry("robotOrientationY").setDouble(RobotMap.drivetrain.navXGyroscope.getAngle());
     }
 }

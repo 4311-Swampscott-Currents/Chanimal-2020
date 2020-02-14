@@ -44,6 +44,13 @@ public class Quaternion2D
         return Math.signum(x) * Math.asin(y) * (360 / Math.PI);
     }
 
+    public double toRadian() {
+        if(x == 0) {
+            return Math.PI * Math.signum(y);
+        }
+        return Math.signum(x) * Math.asin(y);
+    }
+
     public void normalize() {
         double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         x /= distance;
