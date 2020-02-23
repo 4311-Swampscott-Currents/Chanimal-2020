@@ -15,14 +15,11 @@ public class Quaternion2D
         double length = Math.sqrt(x*x + y*y);
         x /= length;
         y /= length;
-        if(y == 0) {
-            return new Quaternion2D(Math.signum(x), 0);
-        }
-        return fromEuler(Math.signum(x) * Math.asin(y) * (180 / Math.PI));
+        return new Quaternion2D(x, y);
     }
 
     public static Quaternion2D fromEuler(double angle) {
-        angle = angle * (Math.PI / 360);
+        angle = angle * (Math.PI / 180);
         return new Quaternion2D(Math.cos(angle), Math.sin(angle));
     }
 
@@ -38,17 +35,11 @@ public class Quaternion2D
     }
 
     public double toEuler() {
-        if(x == 0) {
-            return 90 * Math.signum(y);
-        }
-        return Math.signum(x) * Math.asin(y) * (360 / Math.PI);
+        return Math.atan2(y, x) * (180 / Math.PI);
     }
 
     public double toRadian() {
-        if(x == 0) {
-            return Math.PI * Math.signum(y);
-        }
-        return Math.signum(x) * Math.asin(y);
+        return Math.atan2(y, x);
     }
 
     public void normalize() {

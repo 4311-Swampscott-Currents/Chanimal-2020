@@ -96,4 +96,11 @@ public class ConfigurableJoystick extends Joystick {
         }
         return Math.signum(input) * (input * input);
     }
+
+    public final void debounceAllButtons() {
+        for(String button : getDefaultButtonBindings().keySet()) {
+            getButtonPressed(button);
+            getButtonReleased(button);
+        }
+    }
 }

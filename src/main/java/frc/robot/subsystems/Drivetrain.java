@@ -74,4 +74,9 @@ public class Drivetrain implements Subsystem {
         frontLeftFalcon.set(ControlMode.Disabled, 0);
         frontRightFalcon.set(ControlMode.Disabled, 0);
     }
+
+    @Override
+    public String toString() {
+        return "Drivetrain";
+    }
 }

@@ -1,9 +1,8 @@
 package org.swampscottcurrents.serpentframework;
 
 import edu.wpi.first.hal.HAL;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /** A robot class which calls periodic update functions as fast as possible. */
@@ -76,6 +75,7 @@ public class FastRobot extends RobotBase {
         HAL.observeUserProgramAutonomous();
         matchTimer.reset();
         matchTimer.start();
+        CommandScheduler.getInstance().run();
         autonomousStart();
         updateTimeDelta();
         while(isAutonomous() && !isDisabled() && competitionInProgress) {
@@ -90,6 +90,7 @@ public class FastRobot extends RobotBase {
 
     public final void operatorControl() {
         HAL.observeUserProgramTeleop();
+        CommandScheduler.getInstance().run();
         teleopStart();
         updateTimeDelta();
         while(isOperatorControl() && !isDisabled() && competitionInProgress) {
@@ -98,12 +99,13 @@ public class FastRobot extends RobotBase {
             teleopUpdate();
             updateTimeDelta();
         }
-        autonomousEnd();
+        teleopEnd();
         updateTimeDelta();
     }
 
     public final void test() {
         HAL.observeUserProgramTest();
+        CommandScheduler.getInstance().run();
         testStart();
         updateTimeDelta();
         while(isTest() && !isDisabled() && competitionInProgress) {
@@ -118,6 +120,7 @@ public class FastRobot extends RobotBase {
 
     public final void disabled() {
         HAL.observeUserProgramDisabled();
+        CommandScheduler.getInstance().run();
         disabledStart();
         updateTimeDelta();
         while(isDisabled() && competitionInProgress) {

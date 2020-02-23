@@ -7,11 +7,16 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.swampscottcurrents.serpentframework.FastRobot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.ExecuteGamePlanStrategyCommand;
 import frc.robot.commands.ManualControlCommand;
 
 /**
@@ -25,18 +30,51 @@ public class Robot extends FastRobot {
 
     public static Robot instance;
     
+    private RobotMode currentMode;
+    
     @Override
     public void robotStart() {
         instance = this;
         Preferences.getInstance().removeAll();
         RobotMap.initialize();
+        Feedback.log("Robot started.");
+
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").setDouble(0);
     }
 
     @Override
     public void robotUpdate() {
-        if(RobotMap.joystick.getButtonReleased("Toggle Manual Control")) {
-            CommandScheduler.getInstance().schedule(new ManualControlCommand());
-        }
         NetworkTableInstance.getDefault().getEntry("robotOrientationY").setDouble(RobotMap.drivetrain.navXGyroscope.getAngle());
+    }
+
+    @Override
+    public void autonomousStart() {
+        CommandScheduler.getInstance().schedule(new ExecuteGamePlanStrategyCommand());
+    }
+
+    @Override
+    public void autonomousEnd() {
+        CommandScheduler.getInstance().cancelAll();
+    }
+
+    @Override
+    public void disabledStart() {
+        setRobotMode(RobotMode.Disabled);
+    }
+
+    @Override
+    public void teleopUpdate() {
+        if(RobotMap.joystick.getButtonReleased("Toggle Manual Control")) {
+            CommandScheduler.getInstance().schedule(false, new ManualControlCommand());
+        }
+    }
+
+    public void setRobotMode(RobotMode mode) {
+        currentMode = mode;
+        Feedback.setStatus("Robot", mode.toString());
+    }
+
+    public RobotMode getRobotMode() {
+        return currentMode;
     }
 }

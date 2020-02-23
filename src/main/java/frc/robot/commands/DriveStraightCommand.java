@@ -10,16 +10,24 @@ public class DriveStraightCommand extends CommandBase {
 
     private double feetToMove;
     private int leftSensorGoal, rightSensorGoal;
+    private boolean goingBackwards = false;
 
     public DriveStraightCommand(double feet) {
         feetToMove = feet / 2;
         addRequirements(RobotMap.drivetrain);
     }
 
+    public DriveStraightCommand(double feet, boolean driveBackwards) {
+        feetToMove = feet / 2;
+        goingBackwards = driveBackwards;
+        addRequirements(RobotMap.drivetrain);
+    }
+
     @Override
     public void initialize() {
-        leftSensorGoal = RobotMap.drivetrain.frontLeftFalcon.getSelectedSensorPosition() - (int)(feetToMove * RobotMap.encoderUnitsPerFoot) - 50; //add some units since it seems to undershoot
-        rightSensorGoal = RobotMap.drivetrain.frontRightFalcon.getSelectedSensorPosition() + (int)(feetToMove * RobotMap.encoderUnitsPerFoot) + 50;
+        int back = goingBackwards ? -1 : 1;
+        leftSensorGoal = RobotMap.drivetrain.frontLeftFalcon.getSelectedSensorPosition() + back * ( - (int)(feetToMove * RobotMap.encoderUnitsPerFoot) - 50); //add some units since it seems to undershoot
+        rightSensorGoal = RobotMap.drivetrain.frontRightFalcon.getSelectedSensorPosition() + back * ((int)(feetToMove * RobotMap.encoderUnitsPerFoot) + 50);
         RobotMap.drivetrain.frontLeftFalcon.set(ControlMode.MotionMagic, leftSensorGoal);
         RobotMap.drivetrain.frontRightFalcon.set(ControlMode.MotionMagic, rightSensorGoal);
     }

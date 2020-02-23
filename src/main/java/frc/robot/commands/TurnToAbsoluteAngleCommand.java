@@ -17,9 +17,13 @@ public class TurnToAbsoluteAngleCommand extends CommandBase {
         addRequirements(RobotMap.drivetrain);
     }
 
+    public TurnToAbsoluteAngleCommand(Quaternion2D angle) {
+        
+    }
+
     @Override
     public void initialize() {
-        double ftToTurn = RobotMap.robotRadius * Quaternion2D.subtract(Quaternion2D.fromEuler(RobotMap.drivetrain.navXGyroscope.getAngle()), Quaternion2D.fromEuler(angleToHit)).toRadian();
+        double ftToTurn = RobotMap.robotRadius * Quaternion2D.subtract(Quaternion2D.fromEuler(RobotMap.drivetrain.navXGyroscope.getYaw()), Quaternion2D.fromEuler(angleToHit)).toRadian();
         RobotMap.drivetrain.frontLeftFalcon.set(ControlMode.MotionMagic, RobotMap.drivetrain.frontLeftFalcon.getSelectedSensorPosition() - ftToTurn * RobotMap.encoderUnitsPerFoot); //counterclockwise so right turns forward and left back
         RobotMap.drivetrain.frontRightFalcon.set(ControlMode.MotionMagic, RobotMap.drivetrain.frontRightFalcon.getSelectedSensorPosition() + ftToTurn * RobotMap.encoderUnitsPerFoot);
     }
