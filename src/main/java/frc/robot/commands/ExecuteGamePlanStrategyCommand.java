@@ -64,9 +64,11 @@ public class ExecuteGamePlanStrategyCommand extends SequentialCommandGroup {
                 double xPos = Double.parseDouble(parseInfo[1]);
                 double yPos = Double.parseDouble(parseInfo[2]);
                 toReturn[x - 1] = new ParallelRaceGroup(
-                    new ParallelCommandGroup(
+                    new SequentialCommandGroup(
                         new TurnToAbsoluteAngleCommand(Quaternion2D.fromAxis(xPos - lastPositionX, yPos - lastPositionY)),
-                        new DriveStraightCommand(Math.sqrt(Math.pow(xPos - lastPositionX, 2) + Math.pow(yPos - lastPositionY, 2)))
+                        new WaitForTimeCommand(RobotMap.gamePlanIdleTime),
+                        new DriveStraightCommand(Math.sqrt(Math.pow(xPos - lastPositionX, 2) + Math.pow(yPos - lastPositionY, 2))),
+                        new WaitForTimeCommand(RobotMap.gamePlanIdleTime)
                     ),
                     new IntakeBallsCommand(RobotMap.conveyorBelt)
                 );
@@ -77,9 +79,11 @@ public class ExecuteGamePlanStrategyCommand extends SequentialCommandGroup {
                 double xPos = Double.parseDouble(parseInfo[1]);
                 double yPos = Double.parseDouble(parseInfo[2]);
                 toReturn[x - 1] = new ParallelRaceGroup(
-                    new ParallelCommandGroup(
+                    new SequentialCommandGroup(
                         new TurnToAbsoluteAngleCommand(Quaternion2D.add(Quaternion2D.fromAxis(xPos - lastPositionX, yPos - lastPositionY), Quaternion2D.fromEuler(180))),
-                        new DriveStraightCommand(Math.sqrt(Math.pow(xPos - lastPositionX, 2) + Math.pow(yPos - lastPositionY, 2)), true)
+                        new WaitForTimeCommand(RobotMap.gamePlanIdleTime),
+                        new DriveStraightCommand(Math.sqrt(Math.pow(xPos - lastPositionX, 2) + Math.pow(yPos - lastPositionY, 2)), true),
+                        new WaitForTimeCommand(RobotMap.gamePlanIdleTime)
                     ),
                     new IntakeBallsCommand(RobotMap.conveyorBelt)
                 );

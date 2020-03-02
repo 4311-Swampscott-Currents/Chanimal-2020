@@ -27,12 +27,7 @@ public class AwaitClimbCommand extends CommandBase {
     public void execute() {
         if(RobotMap.joystick.getButtonReleased("Deploy Climbing Apparatus")) {
             if(releaseClimbTime > Robot.instance.getRobotTime()) {
-                CommandScheduler.getInstance().schedule(
-                    new SequentialCommandGroup(
-                        new ReleaseClimberApparatus(),
-                        new OperatorClimbCommand()
-                    )
-                );
+                CommandScheduler.getInstance().schedule(new OperatorClimbCommand());
             }
             else {
                 releaseClimbTime = Robot.instance.getRobotTime() + RobotMap.climberReleaseDebounceButtonTime;

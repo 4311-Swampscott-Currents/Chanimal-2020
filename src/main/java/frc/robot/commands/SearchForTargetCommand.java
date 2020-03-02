@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import org.swampscottcurrents.serpentframework.Quaternion2D;
+
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.Launcher;
 import frc.robot.*;
@@ -22,19 +24,26 @@ public class SearchForTargetCommand extends SequentialCommandGroup {
 
     @Override
     public void execute() {
-        boolean av = RobotMap.limelight.hasTarget();
-        if(av) {
-            Feedback.setStatus("Launcher", "Target acquired");
+        if(Math.abs(Quaternion2D.fromEuler(RobotMap.drivetrain.navXGyroscope.getAngle()).toEuler()) > 90) {
+            RobotMap.limelight.setLEDsOn(false);
         }
         else {
-            Feedback.setStatus("Launcher", "Idle");
-        }
-        if(RobotMap.joystick.getButtonReleased("Fire")) {
+            RobotMap.limelight.setLEDsOn(true);
+            boolean av = RobotMap.limelight.hasTarget();
             if(av) {
-                CommandScheduler.getInstance().schedule(new AimAndFireCommand());
+                Feedback.setStatus("Launcher", "Target acquired");
             }
             else {
-                Feedback.log(RobotMap.launcher, "Valid vision target not found; could not fire!");
+                Feedback.setStatus("Launcher", "Idle");
+            }
+            if(RobotMap.joystick.getButtonReleased("Fire")) {
+                if(av) {
+                    CommandScheduler.getInstance().schedule(new AimAndFireCommand());
+                }
+                else {
+                    CommandScheduler.getInstance().schedule(new SweepForTargetCommand());
+                    Feedback.log(RobotMap.launcher, "Valid vision target not found; sweeping...");
+                }
             }
         }
     }

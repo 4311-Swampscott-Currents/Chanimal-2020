@@ -39,10 +39,11 @@ public class ManualControlCommand extends CommandBase {
         if(NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").exists() && NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").getLastChange() != lastNetworkTablesRobotPositionChange) {
             //do some fun math to figure out speed from distance
             shooterSpeed = Math.sqrt(Math.pow(NetworkTableInstance.getDefault().getEntry("guiRobotPositionX").getDouble(0) - ExecuteGamePlanStrategyCommand.targetLocationX, 2) + Math.pow(NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").getDouble(0) - ExecuteGamePlanStrategyCommand.targetLocationY, 2));
+            shooterSpeed = RobotMap.distanceToLauncherSpeed(shooterSpeed);
             lastNetworkTablesRobotPositionChange = NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").getLastChange();
         }
         if(RobotMap.joystick.getButton("Fire")) {
-            RobotMap.launcher.shooterMotor.set(ControlMode.PercentOutput, shooterSpeed);
+            RobotMap.launcher.setShooterSpeed(shooterSpeed);
             Feedback.setStatus("Launcher", "Firing (" + shooterSpeed + " rots/sec)");
         }
         else {
@@ -58,8 +59,12 @@ public class ManualControlCommand extends CommandBase {
         }
         else if(RobotMap.joystick.getButton("Conveyor Belt Down")) {
             RobotMap.conveyorBelt.setConveyorSpeed(-RobotMap.defaultConveyorSpeed);
+            RobotMap.launcher.shooterMotor.set(ControlMode.PercentOutput, -0.3);
         }
         else {
+            if(!RobotMap.joystick.getButton("Fire")) {
+                RobotMap.launcher.shooterMotor.set(ControlMode.PercentOutput, 0);
+            }
             RobotMap.conveyorBelt.setConveyorSpeed(0);
         }
         if(RobotMap.joystick.getButton("Run Climber")) {

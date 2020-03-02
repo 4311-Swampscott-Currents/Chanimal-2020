@@ -13,8 +13,10 @@ import java.util.Map;
 
 import org.swampscottcurrents.serpentframework.FastRobot;
 
+import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ExecuteGamePlanStrategyCommand;
 import frc.robot.commands.ManualControlCommand;
@@ -37,24 +39,31 @@ public class Robot extends FastRobot {
         instance = this;
         Preferences.getInstance().removeAll();
         RobotMap.initialize();
+        RobotMap.drivetrain.navXGyroscope.setAngleAdjustment(180);
         Feedback.log("Robot started.");
-
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").setDouble(0);
     }
 
     @Override
     public void robotUpdate() {
+        Feedback.setStatus("Match Time", "" + getMatchTime());
+        RobotMap.limelight.update();
         NetworkTableInstance.getDefault().getEntry("robotOrientationY").setDouble(RobotMap.drivetrain.navXGyroscope.getAngle());
     }
 
     @Override
     public void autonomousStart() {
+        Feedback.log("Beginning autonomous.");
         CommandScheduler.getInstance().schedule(new ExecuteGamePlanStrategyCommand());
     }
 
     @Override
     public void autonomousEnd() {
         CommandScheduler.getInstance().cancelAll();
+    }
+
+    @Override
+    public void teleopStart() {
+        Feedback.log("Beginning teleop.");
     }
 
     @Override

@@ -22,12 +22,13 @@ public class Launcher implements Subsystem {
         shooterConfiguration.neutralDeadband = 0.0400782;
         shooterConfiguration.closedloopRamp = 2.045;
         shooterConfiguration.velocityMeasurementPeriod = VelocityMeasPeriod.Period_1Ms;
-        shooterConfiguration.slot0.allowableClosedloopError = 45;
+        shooterConfiguration.slot0.allowableClosedloopError = 100;
         shooterConfiguration.slot0.closedLoopPeriod = 1;
-        shooterConfiguration.slot0.closedLoopPeakOutput = 0.45;
-        shooterConfiguration.slot0.kD = 52;
+        shooterConfiguration.slot0.closedLoopPeakOutput = 1;
+        shooterConfiguration.slot0.kD = 10;
         shooterConfiguration.slot0.kI = 0;
-        shooterConfiguration.slot0.kP = 0.16;
+        shooterConfiguration.slot0.kP = 13.5;
+        shooterConfiguration.slot0.kF = 0.05250001;
 
         shooterMotor.configAllSettings(shooterConfiguration);
         shooterMotor.setInverted(InvertType.InvertMotorOutput);
@@ -43,7 +44,7 @@ public class Launcher implements Subsystem {
         }
         else {
             //enc/ms
-            shooterMotor.set(ControlMode.Velocity, RobotMap.encoderUnitsPerRotation * rotationsPerSecond / 1000);
+            shooterMotor.set(ControlMode.Velocity, RobotMap.encoderUnitsPerRotation * rotationsPerSecond / 10);
         }
     }
 

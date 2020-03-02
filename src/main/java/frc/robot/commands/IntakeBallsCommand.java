@@ -57,23 +57,11 @@ public class IntakeBallsCommand extends CommandBase {
                 }
             }
             if(!conveyorAutoDisabled) {
-                if(disableTime == 0) {
-                    if(RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12) {
-                        disableTime = Robot.instance.getRobotTime() + RobotMap.intakeWaitTime;
-                    }
-                }
-                else {
-                    if(disableTime < Robot.instance.getRobotTime()) {
-                        if(RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12) {
-                            conveyorAutoDisabled = true;
-                            setIntakeRunning(false);
-                            Feedback.setStatus("Conveyor", "Full");
-                            Feedback.log(RobotMap.conveyorBelt, "Conveyor has reached maximum capacity.  Intake auto-disabled.");
-                        }
-                        else {
-                            disableTime = 0;
-                        }
-                    }
+                if(RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12) {
+                    conveyorAutoDisabled = true;
+                    setIntakeRunning(false);
+                    Feedback.setStatus("Conveyor", "Full");
+                    Feedback.log(RobotMap.conveyorBelt, "Conveyor has reached maximum capacity.  Intake auto-disabled.");
                 }
             }
         }

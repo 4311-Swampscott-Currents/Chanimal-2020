@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.RobotMode;
@@ -16,7 +17,8 @@ public class OperatorControlCommand extends CommandBase {
     @Override
     public void initialize() {
         RobotMap.joystick.debounceAllButtons();
-        Robot.instance.setRobotMode(RobotMode.Offense);        
+        Robot.instance.setRobotMode(RobotMode.Offense); 
+        CommandScheduler.getInstance().schedule(false, new ManualControlCommand());       
     }
 
     @Override

@@ -25,7 +25,7 @@ public class LaunchAllBallsCommand extends CommandBase {
     @Override
     public void execute() {
         if(limelightWaitTime != 0 && RobotMap.limelight.hasTarget()) {
-            limelightSpeed = 1; //do some fun calculations here to get speed from distance
+            limelightSpeed = RobotMap.angledLimelightTargetHeightToLauncherSpeed(RobotMap.limelight.getTargetHeight()); //do some fun calculations here to get speed from distance
             limelightWaitTime = 0;
             shooterTime = -Robot.instance.getRobotTime() - RobotMap.shooterWaitToSpinUpTime;
             RobotMap.launcher.setShooterSpeed(limelightSpeed);

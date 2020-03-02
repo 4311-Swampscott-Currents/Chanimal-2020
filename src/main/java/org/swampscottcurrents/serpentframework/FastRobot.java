@@ -140,7 +140,7 @@ public class FastRobot extends RobotBase {
 
     /** Returns the time in seconds since the beginning of the match. */
     public final double getMatchTime() {
-        return matchTimer.get();
+        return Timer.getMatchTime();
     }
 
     /** Returns the time the last robot update cycle took. */
