@@ -27,9 +27,10 @@ public class Drivetrain implements Subsystem {
         driveController.setSafetyEnabled(false);
 
         TalonFXConfiguration mainConfig = new TalonFXConfiguration();
-        mainConfig.neutralDeadband = 0.0400782;
-        mainConfig.motionAcceleration = 1320;
-        mainConfig.motionCruiseVelocity = 3500;
+        mainConfig.openloopRamp = 0.25;
+        mainConfig.neutralDeadband = 0.001;
+        mainConfig.motionAcceleration = 1320 * 4;
+        mainConfig.motionCruiseVelocity = (int)(3500 * 1.1);
         mainConfig.motionCurveStrength = 2;
         mainConfig.closedloopRamp = 2.045;
         mainConfig.slot0.allowableClosedloopError = 45;
@@ -66,7 +67,7 @@ public class Drivetrain implements Subsystem {
 
     /** Drives using a differential (arcade) algorithm. */
     public void driveDifferential(double x, double y) {
-        driveController.arcadeDrive(y, x, false);
+        driveController.arcadeDrive(y, x, true);
     }
 
     /** Shuts off all of the drivetrain motors. */

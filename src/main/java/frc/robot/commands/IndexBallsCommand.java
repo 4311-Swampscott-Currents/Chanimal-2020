@@ -24,21 +24,21 @@ public class IndexBallsCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(objectFoundTime == 0) {
-            if(RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12) {
+        /*if(objectFoundTime == 0) {
+            if(RobotMap.conveyorBelt.indexSensor.getRangeInches() > RobotMap.indexThresholdLength * 12) {
                 objectFoundTime = Robot.instance.getRobotTime() + RobotMap.conveyorIndexWaitTime;
                 RobotMap.conveyorBelt.setConveyorSpeed(0);
             }
         }
-        else if(objectFoundTime < Robot.instance.getRobotTime() && !(RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12)) {
+        else if(objectFoundTime < Robot.instance.getRobotTime() && RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12) {
             objectFoundTime = 0;
             RobotMap.conveyorBelt.setConveyorSpeed(RobotMap.defaultConveyorSpeed);
-        }
+        }*/
     }
 
     @Override
     public boolean isFinished() {
-        return finalIndexTime < Robot.instance.getRobotTime() || (objectFoundTime != 0 && objectFoundTime < Robot.instance.getRobotTime() && RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12);
+        return finalIndexTime < Robot.instance.getRobotTime() || RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12;
     }
 
     @Override

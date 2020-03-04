@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.swampscottcurrents.serpentframework.FastRobot;
+import org.swampscottcurrents.serpentframework.*;
 
 import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -48,6 +48,7 @@ public class Robot extends FastRobot {
         Feedback.setStatus("Match Time", "" + getMatchTime());
         RobotMap.limelight.update();
         NetworkTableInstance.getDefault().getEntry("robotOrientationY").setDouble(RobotMap.drivetrain.navXGyroscope.getAngle());
+        Feedback.setStatus("im deadd", "" + Math.abs(Quaternion2D.fromEuler(RobotMap.drivetrain.navXGyroscope.getAngle()).toEuler()));
     }
 
     @Override

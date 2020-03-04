@@ -15,6 +15,7 @@ public final class RobotJoystick extends ConfigurableJoystick {
     public HashMap<String, Integer> getDefaultButtonBindings() {
         HashMap<String, Integer> toRet = super.getDefaultButtonBindings();
         toRet.put("Fire", 1);
+        toRet.put("Find Target", 2);
         toRet.put("Toggle Intake", 3);
         toRet.put("Toggle Manual Control", 9);
         toRet.put("Conveyor Belt Up", 6);
@@ -32,7 +33,7 @@ public final class RobotJoystick extends ConfigurableJoystick {
     @Override
     public HashMap<String, Double> getDefaultControllerParameters() {
         HashMap<String, Double> toReturn = new HashMap<String, Double>();
-        toReturn.put("Deadzone", 0.1);
+        toReturn.put("Deadzone", 0.025);
         return toReturn;
     }
 }

@@ -60,6 +60,7 @@ public class IntakeBallsCommand extends CommandBase {
                 if(RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12) {
                     conveyorAutoDisabled = true;
                     setIntakeRunning(false);
+                    RobotMap.conveyorBelt.setConveyorSpeed(0);
                     Feedback.setStatus("Conveyor", "Full");
                     Feedback.log(RobotMap.conveyorBelt, "Conveyor has reached maximum capacity.  Intake auto-disabled.");
                 }

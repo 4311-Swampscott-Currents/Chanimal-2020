@@ -34,7 +34,7 @@ public final class RobotMap {
     public final static double shooterConveyorActuationTime = 0.7; //seconds
     public final static double shooterConveyorActuationSpeed = 0.7; //pwr
     public final static double shooterConveyorOffActuationTime = 0.2; //seconds
-    public final static double climberMotorSpeed = 0.8; //pwr
+    public final static double climberMotorSpeed = 1; //pwr
     public final static double climberHookMotorSpeed = 1; //pwr
     public final static double climberReleaseDebounceButtonTime = 1; //s
     public final static double climberReleaseTime = 0.2; //s
@@ -44,7 +44,8 @@ public final class RobotMap {
     public final static double shooterManualControlSpeedIncrements = 0.5; //rots/sec
     public final static double shooterMaxSpeed = 95; //rots/sec
     public final static double gamePlanIdleTime = 0.4; //s
-    public final static double limelightPerspectiveConstantP = 0.1; //unitless
+    public final static double limelightPerspectiveConstantP = 0.2379283874; //unitless
+    public final static double limelightThreshold = 6; //pixel
 
     /** Creates all of the robot subsystem objects. */
     public static void initialize() {
@@ -58,6 +59,7 @@ public final class RobotMap {
 
     /** Converts a target in Limelight pixels to launcher speed in r/s. */
     public static double limelightTargetHeightToLauncherSpeed(double x) {
+        // edited return 0.0000071194192770191 * Math.pow(x, 4) - 0.00148151580351 * Math.pow(x, 3) + 0.1194240947187 * Math.pow(x, 2) - 4.495256009821 * x + 98.381876157753;
         return 0.0000071194192770191 * Math.pow(x, 4) - 0.00148151580351 * Math.pow(x, 3) + 0.1194240947187 * Math.pow(x, 2) - 4.4525256009821 * x + 98.381876157753;
     }
 
@@ -71,7 +73,7 @@ public final class RobotMap {
         if(x <= 9) {
             return 90; //return arbitrarily large constant
         }
-        if(x >= 41.5) {
+        else if(x >= 41.5) {
             return x - 2; //return fairly large constant that might still work
         }
         else {

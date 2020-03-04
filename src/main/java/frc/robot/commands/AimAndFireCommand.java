@@ -13,8 +13,8 @@ public class AimAndFireCommand extends SequentialCommandGroup {
                 new ParallelCommandGroup(
                     new TurnToRelativeAngleCommand(RobotMap.limelight.getTargetDegreesX()),
                     new IndexBallsCommand()
-                ),
-                new LaunchAllBallsCommand()
+                )/*,
+                new LaunchAllBallsCommand()*/
             );
         }
     }

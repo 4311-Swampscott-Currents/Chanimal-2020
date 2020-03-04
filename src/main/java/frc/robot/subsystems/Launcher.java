@@ -9,11 +9,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.*;
-import frc.robot.commands.SearchForTargetCommand;
+import frc.robot.commands.OperatorLaunchCommand;
 
 /** Represents the subsystem used for launching balls on the robot. */
 public class Launcher implements Subsystem {
     
+    public static double launcherSpeed = 35;
+
     /** The Falcon attached to the shooter. */
     public WPI_TalonFX shooterMotor = new WPI_TalonFX(15);
 
@@ -25,16 +27,16 @@ public class Launcher implements Subsystem {
         shooterConfiguration.slot0.allowableClosedloopError = 100;
         shooterConfiguration.slot0.closedLoopPeriod = 1;
         shooterConfiguration.slot0.closedLoopPeakOutput = 1;
-        shooterConfiguration.slot0.kD = 10;
+        shooterConfiguration.slot0.kD = 7;
         shooterConfiguration.slot0.kI = 0;
-        shooterConfiguration.slot0.kP = 13.5;
+        shooterConfiguration.slot0.kP = 12;
         shooterConfiguration.slot0.kF = 0.05250001;
 
         shooterMotor.configAllSettings(shooterConfiguration);
         shooterMotor.setInverted(InvertType.InvertMotorOutput);
         shooterMotor.setNeutralMode(NeutralMode.Coast);
 
-        setDefaultCommand(new SearchForTargetCommand(this));
+        setDefaultCommand(new OperatorLaunchCommand(this));
     }
 
     /** Turns on the shooter, using PID control to maintain a constant rotational velocity. */

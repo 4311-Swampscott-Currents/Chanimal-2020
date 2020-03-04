@@ -17,8 +17,7 @@ public class OperatorControlCommand extends CommandBase {
     @Override
     public void initialize() {
         RobotMap.joystick.debounceAllButtons();
-        Robot.instance.setRobotMode(RobotMode.Offense); 
-        CommandScheduler.getInstance().schedule(false, new ManualControlCommand());       
+        Robot.instance.setRobotMode(RobotMode.Offense);
     }
 
     @Override

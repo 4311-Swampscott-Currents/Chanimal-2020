@@ -8,13 +8,12 @@ import frc.robot.Feedback;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.RobotMode;
+import frc.robot.subsystems.Launcher;
 
 /** This command allows the driver complete manual control over the robot, without any automation or restrictions. */
 public class ManualControlCommand extends CommandBase {
 
     private boolean intakeEnabled = false;
-
-    private static double shooterSpeed = 50;
     private static double lastNetworkTablesRobotPositionChange = -1;
 
     public ManualControlCommand() {
@@ -31,28 +30,29 @@ public class ManualControlCommand extends CommandBase {
     public void execute() {
         RobotMap.drivetrain.driveDifferential(-RobotMap.joystick.getXAxis(), RobotMap.joystick.getYAxis());
         if(RobotMap.joystick.getButtonReleased("Increment Launcher Speed")) {
-            shooterSpeed = clamp(shooterSpeed + RobotMap.shooterManualControlSpeedIncrements, 0, RobotMap.shooterMaxSpeed);
+            Launcher.launcherSpeed = clamp(Launcher.launcherSpeed + RobotMap.shooterManualControlSpeedIncrements, 0, RobotMap.shooterMaxSpeed);
         }
         if(RobotMap.joystick.getButtonReleased("Decrement Launcher Speed")) {
-            shooterSpeed = clamp(shooterSpeed - RobotMap.shooterManualControlSpeedIncrements, 0, RobotMap.shooterMaxSpeed);
+            Launcher.launcherSpeed = clamp(Launcher.launcherSpeed - RobotMap.shooterManualControlSpeedIncrements, 0, RobotMap.shooterMaxSpeed);
         }
         if(NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").exists() && NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").getLastChange() != lastNetworkTablesRobotPositionChange) {
             //do some fun math to figure out speed from distance
-            shooterSpeed = Math.sqrt(Math.pow(NetworkTableInstance.getDefault().getEntry("guiRobotPositionX").getDouble(0) - ExecuteGamePlanStrategyCommand.targetLocationX, 2) + Math.pow(NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").getDouble(0) - ExecuteGamePlanStrategyCommand.targetLocationY, 2));
-            shooterSpeed = RobotMap.distanceToLauncherSpeed(shooterSpeed);
+            Launcher.launcherSpeed = Math.sqrt(Math.pow(NetworkTableInstance.getDefault().getEntry("guiRobotPositionX").getDouble(0) - ExecuteGamePlanStrategyCommand.targetLocationX, 2) + Math.pow(NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").getDouble(0) - ExecuteGamePlanStrategyCommand.targetLocationY, 2));
+            Launcher.launcherSpeed = RobotMap.distanceToLauncherSpeed(Launcher.launcherSpeed);
             lastNetworkTablesRobotPositionChange = NetworkTableInstance.getDefault().getEntry("guiRobotPositionY").getLastChange();
         }
         if(RobotMap.joystick.getButton("Fire")) {
-            RobotMap.launcher.setShooterSpeed(shooterSpeed);
-            Feedback.setStatus("Launcher", "Firing (" + shooterSpeed + " rots/sec)");
+            RobotMap.launcher.setShooterSpeed(Launcher.launcherSpeed);
+            Feedback.setStatus("Launcher", "Firing (" + Launcher.launcherSpeed + " rots/sec)");
         }
         else {
             RobotMap.launcher.shooterMotor.set(ControlMode.PercentOutput, 0);
-            Feedback.setStatus("Launcher", "Idle (" + shooterSpeed + " rots/sec)");
+            Feedback.setStatus("Launcher", "Idle (" + Launcher.launcherSpeed + " rots/sec)");
         }
         if(RobotMap.joystick.getButtonReleased("Toggle Intake")) {
-            intakeEnabled = !intakeEnabled;
-            RobotMap.conveyorBelt.setIntakeOn(intakeEnabled);
+            //intakeEnabled = !intakeEnabled;
+            //RobotMap.conveyorBelt.setIntakeOn(intakeEnabled);
+            Launcher.launcherSpeed = RobotMap.angledLimelightTargetHeightToLauncherSpeed(RobotMap.limelight.getTargetHeight()) + 0.4;
         }
         if(RobotMap.joystick.getButton("Conveyor Belt Up")) {
             RobotMap.conveyorBelt.setConveyorSpeed(RobotMap.defaultConveyorSpeed);
