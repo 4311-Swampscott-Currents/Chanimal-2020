@@ -15,18 +15,16 @@ public final class RobotJoystick extends ConfigurableJoystick {
     public HashMap<String, Integer> getDefaultButtonBindings() {
         HashMap<String, Integer> toRet = super.getDefaultButtonBindings();
         toRet.put("Fire", 1);
-        toRet.put("Find Target", 2);
-        toRet.put("Toggle Intake", 3);
+        toRet.put("Find Target", 3);
+        toRet.put("Toggle Intake", 2);
         toRet.put("Toggle Manual Control", 9);
         toRet.put("Conveyor Belt Up", 6);
         toRet.put("Conveyor Belt Down", 7);
-        toRet.put("Deploy Climbing Apparatus", 11);
         toRet.put("Climbing Hook Up", 11);
         toRet.put("Climbing Hook Down", 10);
         toRet.put("Run Climber", 8);
-        toRet.put("Exit Climb", 15);
-        toRet.put("Increment Launcher Speed", 4);
-        toRet.put("Decrement Launcher Speed", 5);
+        toRet.put("Increment Launcher Speed", 5);
+        toRet.put("Decrement Launcher Speed", 4);
         return toRet;
     }
 

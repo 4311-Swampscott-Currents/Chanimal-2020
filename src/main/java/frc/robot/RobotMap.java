@@ -22,30 +22,31 @@ public final class RobotMap {
     public final static double robotRadius = 0.90625;
     public final static double intakeThresholdLength = 0.667; //ft
     public final static double intakeWaitTime = 0.175; //seconds
-    public final static double intakeSuckTime = 0.35; //seconds
-    public final static double intakeDisableTime = 0.1; //seconds
-    public final static double conveyorIndexTime = 2; //seconds
+    public final static double intakeSuckTime = 0.4; //seconds
+    public final static double intakeDisableTime = 0.125; //seconds
+    public final static double conveyorIndexTime = 2.5; //seconds
     public final static double conveyorIndexWaitTime = 0.1; //seconds
-    public final static double defaultConveyorSpeed = 0.6; //pwr
+    public final static double defaultConveyorSpeed = 0.55; //pwr
     public final static double defaultIntakeSpeed = 0.5; //pwr
     public final static double indexThresholdLength = 0.55; //ft
     public final static double shootBallTime = 0.3; //seconds
     public final static double limelightWaitTime = 0.1; //seconds
-    public final static double shooterConveyorActuationTime = 0.7; //seconds
-    public final static double shooterConveyorActuationSpeed = 0.7; //pwr
-    public final static double shooterConveyorOffActuationTime = 0.2; //seconds
+    public final static double shooterConveyorActuationTime = 1; //seconds
+    public final static double shooterConveyorActuationSpeed = 0.5  ; //pwr
+    public final static double shooterConveyorOffActuationTime = 1; //seconds
     public final static double climberMotorSpeed = 1; //pwr
     public final static double climberHookMotorSpeed = 1; //pwr
     public final static double climberReleaseDebounceButtonTime = 1; //s
     public final static double climberReleaseTime = 0.2; //s
     public final static double climberReleaseSpeed = 0.75; //pwr
     public final static double climberDrivetrainSlowdownPercentage = 0.707;
-    public final static double shooterWaitToSpinUpTime = 0.5; //s
     public final static double shooterManualControlSpeedIncrements = 0.5; //rots/sec
     public final static double shooterMaxSpeed = 95; //rots/sec
     public final static double gamePlanIdleTime = 0.4; //s
     public final static double limelightPerspectiveConstantP = 0.2379283874; //unitless
     public final static double limelightThreshold = 6; //pixel
+    public final static double conveyorIndexSpeed = 0.45; //pwr
+    public final static double shooterConveyorInitialOffTime = 2;
 
     /** Creates all of the robot subsystem objects. */
     public static void initialize() {

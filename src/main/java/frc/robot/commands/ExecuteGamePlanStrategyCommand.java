@@ -10,6 +10,7 @@ import frc.robot.Feedback;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.RobotMode;
+import frc.robot.subsystems.Launcher;
 
 /** Represents a series of actions created in ShuffleBoard using the GamePlan widget.  The actions are synthesized when the command object is created, so storing/reusing it will result in out-of-sync data. */
 public class ExecuteGamePlanStrategyCommand extends SequentialCommandGroup {
@@ -49,12 +50,17 @@ public class ExecuteGamePlanStrategyCommand extends SequentialCommandGroup {
         for(int x = 1; x < commandSubsets.length; x++) {
             parseInfo = commandSubsets[x].split(",");
             if(parseInfo[0].equals("FireBalls")) {
+                final SweepForTargetCommand command = new SweepForTargetCommand();
+                final double tx = lastPositionX;
+                final double ty = lastPositionY;
                 toReturn[x - 1] = new SequentialCommandGroup(
                     new ParallelCommandGroup(
                         new IndexBallsCommand(),
                         new TurnToAbsoluteAngleCommand(Quaternion2D.fromAxis(targetLocationX - lastPositionX, targetLocationY - lastPositionY))
                     ),
-                    new AimAndFireCommand()
+                    command,
+                    new ConditionalCommand(new InstantCommand(() -> { Launcher.launcherSpeed = RobotMap.distanceToLauncherSpeed(Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2))); }), null, command::hasFoundTarget),
+                    new LaunchAllBallsCommand()
                 );
             }
             else if(parseInfo[0].equals("Wait")) {

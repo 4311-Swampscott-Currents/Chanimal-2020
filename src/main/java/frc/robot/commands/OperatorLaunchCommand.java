@@ -31,14 +31,11 @@ public class OperatorLaunchCommand extends SequentialCommandGroup {
         if(RobotMap.joystick.getButtonReleased("Find Target")) {
             CommandScheduler.getInstance().schedule(new SweepForTargetCommand());
         }
-        if(RobotMap.joystick.getButtonReleased("Fire")) {
-            if(av) {
-                CommandScheduler.getInstance().schedule(new AimAndFireCommand());
-            }
-            else {
-                CommandScheduler.getInstance().schedule(new SweepForTargetCommand());
-                Feedback.log(RobotMap.launcher, "Valid vision target not found; sweeping...");
-            }
+        if(RobotMap.joystick.getButton("Fire")) {
+            RobotMap.launcher.setShooterSpeed(Launcher.launcherSpeed);
+        }
+        else {
+            RobotMap.launcher.setShooterSpeed(0);
         }
     }
 
@@ -55,5 +52,6 @@ public class OperatorLaunchCommand extends SequentialCommandGroup {
     @Override
     public void end(boolean interrupted) {
         RobotMap.limelight.setLEDsOn(true);
+        RobotMap.launcher.setShooterSpeed(0);
     }
 }

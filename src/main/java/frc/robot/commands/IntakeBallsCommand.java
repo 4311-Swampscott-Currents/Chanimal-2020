@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.*;
 import frc.robot.subsystems.*;
 
@@ -65,6 +67,13 @@ public class IntakeBallsCommand extends CommandBase {
                     Feedback.log(RobotMap.conveyorBelt, "Conveyor has reached maximum capacity.  Intake auto-disabled.");
                 }
             }
+        }
+        if(RobotMap.joystick.getButtonReleased("Increment Launcher Speed")) {
+            Launcher.launcherSpeed = 10;
+            CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                new IndexBallsCommand(),
+                new LaunchAllBallsCommand()
+            ));
         }
     }
 

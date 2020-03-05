@@ -18,7 +18,9 @@ public class IndexBallsCommand extends CommandBase {
     @Override
     public void initialize() {
         finalIndexTime = Robot.instance.getRobotTime() + RobotMap.conveyorIndexTime;
-        RobotMap.conveyorBelt.setConveyorSpeed(RobotMap.defaultConveyorSpeed);
+        if(RobotMap.conveyorBelt.indexSensor.getRangeInches() > RobotMap.indexThresholdLength * 12) {
+            RobotMap.conveyorBelt.setConveyorSpeed(RobotMap.conveyorIndexSpeed);
+        }
         Feedback.setStatus("Conveyor", "Indexing");
     }
 
@@ -43,6 +45,7 @@ public class IndexBallsCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        
         RobotMap.conveyorBelt.setConveyorSpeed(0);
     }
 }
