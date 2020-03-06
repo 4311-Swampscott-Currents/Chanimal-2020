@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.swampscottcurrents.serpentframework.*;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Preferences;
@@ -41,6 +42,7 @@ public class Robot extends FastRobot {
         RobotMap.initialize();
         RobotMap.drivetrain.navXGyroscope.setAngleAdjustment(180);
         Feedback.log("Robot started.");
+        CameraServer.getInstance().startAutomaticCapture(0);
     }
 
     @Override
@@ -48,7 +50,6 @@ public class Robot extends FastRobot {
         Feedback.setStatus("Match Time", "" + getMatchTime());
         RobotMap.limelight.update();
         NetworkTableInstance.getDefault().getEntry("robotOrientationY").setDouble(RobotMap.drivetrain.navXGyroscope.getAngle());
-        Feedback.setStatus("im deadd", "" + Math.abs(Quaternion2D.fromEuler(RobotMap.drivetrain.navXGyroscope.getAngle()).toEuler()));
     }
 
     @Override

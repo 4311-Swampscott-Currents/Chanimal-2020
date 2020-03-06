@@ -69,7 +69,6 @@ public class IntakeBallsCommand extends CommandBase {
             }
         }
         if(RobotMap.joystick.getButtonReleased("Increment Launcher Speed")) {
-            Launcher.launcherSpeed = 10;
             CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                 new IndexBallsCommand(),
                 new LaunchAllBallsCommand()

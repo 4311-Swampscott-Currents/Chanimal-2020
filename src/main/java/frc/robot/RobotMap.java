@@ -11,6 +11,7 @@ public final class RobotMap {
     public static Launcher launcher;
     public static Climber climber;
     public static Limelight limelight;
+    public static CameraManager cameraManager;
 
     public final static double sweepSpeed = 0.5;
     public final static double sweepSpeedSlow = 0.25;
@@ -21,12 +22,12 @@ public final class RobotMap {
     public final static double encoderUnitsPerFoot = encoderUnitsPerRotation * motorRotationsPerFoot; // sensor units/ft
     public final static double robotRadius = 0.90625;
     public final static double intakeThresholdLength = 0.667; //ft
-    public final static double intakeWaitTime = 0.175; //seconds
+    public final static double intakeWaitTime = 0.1; //seconds
     public final static double intakeSuckTime = 0.4; //seconds
     public final static double intakeDisableTime = 0.125; //seconds
     public final static double conveyorIndexTime = 2.5; //seconds
-    public final static double conveyorIndexWaitTime = 0.1; //seconds
-    public final static double defaultConveyorSpeed = 0.55; //pwr
+    public final static double conveyorIndexWaitTime = 0.125; //seconds
+    public final static double defaultConveyorSpeed = 0.575; //pwr
     public final static double defaultIntakeSpeed = 0.5; //pwr
     public final static double indexThresholdLength = 0.55; //ft
     public final static double shootBallTime = 0.3; //seconds
@@ -44,13 +45,14 @@ public final class RobotMap {
     public final static double shooterMaxSpeed = 95; //rots/sec
     public final static double gamePlanIdleTime = 0.4; //s
     public final static double limelightPerspectiveConstantP = 0.2379283874; //unitless
-    public final static double limelightThreshold = 6; //pixel
+    public final static double limelightThreshold = 4; //pixel
     public final static double conveyorIndexSpeed = 0.45; //pwr
     public final static double shooterConveyorInitialOffTime = 2;
 
     /** Creates all of the robot subsystem objects. */
     public static void initialize() {
         joystick = new RobotJoystick(0);
+        cameraManager = new CameraManager();
         limelight = new Limelight();
         drivetrain = new Drivetrain();
         conveyorBelt = new ConveyorBelt();

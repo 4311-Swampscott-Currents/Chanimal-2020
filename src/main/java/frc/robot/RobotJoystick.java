@@ -25,6 +25,7 @@ public final class RobotJoystick extends ConfigurableJoystick {
         toRet.put("Run Climber", 8);
         toRet.put("Increment Launcher Speed", 5);
         toRet.put("Decrement Launcher Speed", 4);
+        toRet.put("Swap Cameras", 8);
         return toRet;
     }
 

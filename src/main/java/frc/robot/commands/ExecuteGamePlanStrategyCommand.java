@@ -27,7 +27,14 @@ public class ExecuteGamePlanStrategyCommand extends SequentialCommandGroup {
             }
         }
         catch(Exception e) {
-            Feedback.log("Unable to execute GamePlan strategy:\n" + e.getMessage());
+            yert(e.getStackTrace());
+            Feedback.log("Unable to execute GamePlan strategy:\n" + e.getStackTrace()[0].toString() + "\n" + e.getMessage());
+        }
+    }
+
+    public void yert(StackTraceElement[] chef) {
+        for(StackTraceElement el : chef) {
+            Feedback.log(el.toString());
         }
     }
 
@@ -50,16 +57,14 @@ public class ExecuteGamePlanStrategyCommand extends SequentialCommandGroup {
         for(int x = 1; x < commandSubsets.length; x++) {
             parseInfo = commandSubsets[x].split(",");
             if(parseInfo[0].equals("FireBalls")) {
-                final SweepForTargetCommand command = new SweepForTargetCommand();
                 final double tx = lastPositionX;
                 final double ty = lastPositionY;
                 toReturn[x - 1] = new SequentialCommandGroup(
                     new ParallelCommandGroup(
-                        new IndexBallsCommand(),
-                        new TurnToAbsoluteAngleCommand(Quaternion2D.fromAxis(targetLocationX - lastPositionX, targetLocationY - lastPositionY))
+                        new IndexBallsCommand()
+                        //new TurnToAbsoluteAngleCommand(Quaternion2D.fromAxis(targetLocationX - lastPositionX, targetLocationY - lastPositionY))
                     ),
-                    command,
-                    new ConditionalCommand(new InstantCommand(() -> { Launcher.launcherSpeed = RobotMap.distanceToLauncherSpeed(Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2))); }), null, command::hasFoundTarget),
+                    new InstantCommand(() -> { Launcher.launcherSpeed = RobotMap.distanceToLauncherSpeed(Math.sqrt(Math.pow(tx, 2) + Math.pow(ty, 2))); }),
                     new LaunchAllBallsCommand()
                 );
             }
