@@ -11,16 +11,16 @@ public class CameraManager implements Subsystem {
     public int currentCameraIndex = 0;
 
     public CameraManager() {
-        cameras = new UsbCamera[1];
-        //cameras[0] = CameraServer.getInstance().startAutomaticCapture(0);
-        //cameras[1] = CameraServer.getInstance().startAutomaticCapture(1);
-        //CameraServer.getInstance().getServer().setSource(cameras[0]);
+        cameras = new UsbCamera[2];
+        cameras[0] = CameraServer.getInstance().startAutomaticCapture(0);
+        cameras[1] = CameraServer.getInstance().startAutomaticCapture(1);
+        CameraServer.getInstance().getServer().setSource(cameras[0]);
         
         setDefaultCommand(new OperatorSwapCamerasCommand(this));
     }
 
     public void setCameraIndex(int index) {
         currentCameraIndex = index;
-        //CameraServer.getInstance().getServer().setSource(cameras[index]);
+        CameraServer.getInstance().getServer().setSource(cameras[index]);
     }
 }

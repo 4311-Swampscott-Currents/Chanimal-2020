@@ -7,18 +7,11 @@
 
 package frc.robot;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.swampscottcurrents.serpentframework.FastRobot;
 
-import org.swampscottcurrents.serpentframework.*;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.hal.HALUtil;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.ExecuteGamePlanStrategyCommand;
 import frc.robot.commands.ManualControlCommand;
 
@@ -42,30 +35,37 @@ public class Robot extends FastRobot {
         RobotMap.initialize();
         RobotMap.drivetrain.navXGyroscope.setAngleAdjustment(180);
         Feedback.log("Robot started.");
-        CameraServer.getInstance().startAutomaticCapture(0);
     }
 
     @Override
     public void robotUpdate() {
-        Feedback.setStatus("Match Time", "" + getMatchTime());
+        Feedback.setStatus("Match Time", "" + (int)(10 * getMatchTime()) / 10D);
         RobotMap.limelight.update();
         NetworkTableInstance.getDefault().getEntry("robotOrientationY").setDouble(RobotMap.drivetrain.navXGyroscope.getAngle());
     }
 
     @Override
     public void autonomousStart() {
+        NetworkTableInstance.getDefault().getEntry("isManualMode").setBoolean(true);
         Feedback.log("Beginning autonomous.");
         CommandScheduler.getInstance().schedule(new ExecuteGamePlanStrategyCommand());
     }
 
     @Override
     public void autonomousEnd() {
+        NetworkTableInstance.getDefault().getEntry("isManualMode").delete();
         CommandScheduler.getInstance().cancelAll();
     }
 
     @Override
     public void teleopStart() {
+        NetworkTableInstance.getDefault().getEntry("isManualMode").setBoolean(true);
         Feedback.log("Beginning teleop.");
+    }
+    
+    @Override
+    public void teleopEnd() {
+        NetworkTableInstance.getDefault().getEntry("isManualMode").delete();
     }
 
     @Override

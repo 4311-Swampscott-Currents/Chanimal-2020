@@ -10,7 +10,7 @@ import frc.robot.RobotMap;
 public class DriveStraightCommand extends CommandBase {
 
     private double feetToMove;
-    private int leftSensorGoal, rightSensorGoal;
+    private double leftSensorGoal, rightSensorGoal;
     private boolean goingBackwards = false;
 
     public DriveStraightCommand(double feet) {
@@ -26,9 +26,10 @@ public class DriveStraightCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        RobotMap.drivetrain.zeroAllEncoders(); //THIS IS EXTREMELY IMPORTANT.  Without this line of code, rounding errors appear very quickly.
         int back = goingBackwards ? -1 : 1;
-        leftSensorGoal = RobotMap.drivetrain.frontLeftFalcon.getSelectedSensorPosition() + back * ( - (int)(feetToMove * RobotMap.encoderUnitsPerFoot) - 10); //add some units since it seems to undershoot
-        rightSensorGoal = RobotMap.drivetrain.frontRightFalcon.getSelectedSensorPosition() + back * ((int)(feetToMove * RobotMap.encoderUnitsPerFoot) + 10);
+        leftSensorGoal = back * ( - (int)(feetToMove * RobotMap.encoderUnitsPerFoot) - 10); //add some units since it seems to undershoot
+        rightSensorGoal = back * ((int)(feetToMove * RobotMap.encoderUnitsPerFoot) + 10);
         RobotMap.drivetrain.frontLeftFalcon.set(ControlMode.MotionMagic, leftSensorGoal);
         RobotMap.drivetrain.frontRightFalcon.set(ControlMode.MotionMagic, rightSensorGoal);
     }

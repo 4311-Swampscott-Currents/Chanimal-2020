@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -12,7 +14,7 @@ public class IntakeBallsCommand extends CommandBase {
     private boolean isIntakeRunning = true;
     private boolean conveyorAutoDisabled = false;
     private double checkTime = 0;
-    private double disableTime = 0;
+    private double automaticConveyorSpeed = 0;
 
     public IntakeBallsCommand(ConveyorBelt system) {
         addRequirements(system);
@@ -21,11 +23,10 @@ public class IntakeBallsCommand extends CommandBase {
     @Override
     public void initialize() {
         RobotMap.conveyorBelt.setIntakeOn(isIntakeRunning);
-        RobotMap.conveyorBelt.setConveyorSpeed(0);
+        automaticConveyorSpeed = 0;
         setIntakeRunning(true);
         conveyorAutoDisabled = false;
         checkTime = 0;
-        disableTime = 0;
         RobotMap.joystick.debounceAllButtons();
     }
 
@@ -33,7 +34,7 @@ public class IntakeBallsCommand extends CommandBase {
     public void execute() {
         if(RobotMap.joystick.getButtonReleased("Toggle Intake")) {
             if(isIntakeRunning) {
-                RobotMap.conveyorBelt.setConveyorSpeed(0);
+                automaticConveyorSpeed = 0;
             }
             setIntakeRunning(!isIntakeRunning);
         }
@@ -46,7 +47,7 @@ public class IntakeBallsCommand extends CommandBase {
             else if(Math.abs(checkTime) < Robot.instance.getRobotTime()) {
                 if(checkTime > 0) {
                     if(RobotMap.conveyorBelt.intakeSensor.getRangeInches() < RobotMap.intakeThresholdLength * 12) {    
-                        RobotMap.conveyorBelt.setConveyorSpeed(RobotMap.defaultConveyorSpeed);
+                        automaticConveyorSpeed = RobotMap.defaultConveyorSpeed;
                         checkTime = -Robot.instance.getRobotTime() - RobotMap.intakeSuckTime;
                     }
                     else {
@@ -54,7 +55,7 @@ public class IntakeBallsCommand extends CommandBase {
                     }
                 }
                 else {
-                    RobotMap.conveyorBelt.setConveyorSpeed(0);
+                    automaticConveyorSpeed = 0;
                     checkTime = 0;
                 }
             }
@@ -62,17 +63,25 @@ public class IntakeBallsCommand extends CommandBase {
                 if(RobotMap.conveyorBelt.indexSensor.getRangeInches() < RobotMap.indexThresholdLength * 12) {
                     conveyorAutoDisabled = true;
                     setIntakeRunning(false);
-                    RobotMap.conveyorBelt.setConveyorSpeed(0);
+                    automaticConveyorSpeed = 0;
                     Feedback.setStatus("Conveyor", "Full");
                     Feedback.log(RobotMap.conveyorBelt, "Conveyor has reached maximum capacity.  Intake auto-disabled.");
                 }
             }
         }
-        if(RobotMap.joystick.getButtonReleased("Increment Launcher Speed")) {
-            CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-                new IndexBallsCommand(),
-                new LaunchAllBallsCommand()
-            ));
+        
+        if(RobotMap.joystick.getButton("Conveyor Belt Up")) {
+            RobotMap.conveyorBelt.setConveyorSpeed(RobotMap.defaultConveyorSpeed);
+        }
+        else if(RobotMap.joystick.getButton("Conveyor Belt Down")) {
+            RobotMap.conveyorBelt.setConveyorSpeed(-RobotMap.defaultConveyorSpeed);
+            RobotMap.launcher.shooterMotor.set(ControlMode.PercentOutput, -0.3);
+        }
+        else {
+            if(!RobotMap.joystick.getButton("Fire")) {
+                RobotMap.launcher.shooterMotor.set(ControlMode.PercentOutput, 0);
+            }
+            RobotMap.conveyorBelt.setConveyorSpeed(automaticConveyorSpeed);
         }
     }
 

@@ -12,6 +12,7 @@ public final class RobotMap {
     public static Climber climber;
     public static Limelight limelight;
     public static CameraManager cameraManager;
+    public static Spinner spinner;
 
     public final static double sweepSpeed = 0.5;
     public final static double sweepSpeedSlow = 0.25;
@@ -43,11 +44,13 @@ public final class RobotMap {
     public final static double climberDrivetrainSlowdownPercentage = 0.707;
     public final static double shooterManualControlSpeedIncrements = 0.5; //rots/sec
     public final static double shooterMaxSpeed = 95; //rots/sec
-    public final static double gamePlanIdleTime = 0.4; //s
+    public final static double gamePlanIdleTime = 0.25; //s
     public final static double limelightPerspectiveConstantP = 0.2379283874; //unitless
     public final static double limelightThreshold = 4; //pixel
     public final static double conveyorIndexSpeed = 0.45; //pwr
     public final static double shooterConveyorInitialOffTime = 2;
+    public final static double spinnerColorThreshold = 0.25;
+    public final static double spinnerMaxSpeed = 0.8; //pwr
 
     /** Creates all of the robot subsystem objects. */
     public static void initialize() {
@@ -58,6 +61,7 @@ public final class RobotMap {
         conveyorBelt = new ConveyorBelt();
         launcher = new Launcher();
         climber = new Climber();
+        spinner = new Spinner();
     }
 
     /** Converts a target in Limelight pixels to launcher speed in r/s. */

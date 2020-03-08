@@ -23,7 +23,6 @@ public class ManualControlCommand extends CommandBase {
     @Override
     public void initialize() {
         Robot.instance.setRobotMode(RobotMode.Manual);
-        NetworkTableInstance.getDefault().getEntry("isManualMode").setBoolean(true);
     }
 
     @Override
@@ -83,6 +82,15 @@ public class ManualControlCommand extends CommandBase {
         }
         else {
             RobotMap.climber.setHookMotorSpeed(0);
+        }
+        if(RobotMap.joystick.getButton("Run Spinner")) {
+            RobotMap.spinner.runSpinnerMotor(RobotMap.spinnerMaxSpeed);
+        }
+        else {
+            RobotMap.spinner.runSpinnerMotor(0);
+        }
+        if(RobotMap.joystick.getButtonReleased("Reset Gyro")) {
+            RobotMap.drivetrain.navXGyroscope.reset();
         }
     }
 

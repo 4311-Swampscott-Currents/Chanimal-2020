@@ -26,6 +26,10 @@ public final class RobotJoystick extends ConfigurableJoystick {
         toRet.put("Increment Launcher Speed", 5);
         toRet.put("Decrement Launcher Speed", 4);
         toRet.put("Swap Cameras", 8);
+        toRet.put("Run Position Control", 16);
+        toRet.put("Run Rotation Control", 16);
+        toRet.put("Run Spinner", 17);
+        toRet.put("Reset Gyro", 17);
         return toRet;
     }
 

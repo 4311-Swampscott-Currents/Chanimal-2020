@@ -5,7 +5,6 @@ public enum RobotMode {
     GamePlan,
     Offense,
     Defense,
-    Climb,
     Manual,
     Disabled
 }

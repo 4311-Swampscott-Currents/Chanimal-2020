@@ -9,6 +9,7 @@ import frc.robot.RobotMap;
 public class TurnToRelativeAngleCommand extends CommandBase {
 
     private double angleToHit;
+    private double leftSensorGoal, rightSensorGoal;
 
     public TurnToRelativeAngleCommand(double angle) {
         angleToHit = angle;
@@ -17,15 +18,18 @@ public class TurnToRelativeAngleCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        RobotMap.drivetrain.zeroAllEncoders();
         double ftToTurn = Math.PI * RobotMap.robotRadius * angleToHit / 180;
-        RobotMap.drivetrain.frontLeftFalcon.set(ControlMode.MotionMagic, RobotMap.drivetrain.frontLeftFalcon.getSelectedSensorPosition() - ftToTurn * RobotMap.encoderUnitsPerFoot); //counterclockwise so right turns forward and left back
-        RobotMap.drivetrain.frontRightFalcon.set(ControlMode.MotionMagic, RobotMap.drivetrain.frontRightFalcon.getSelectedSensorPosition() + ftToTurn * RobotMap.encoderUnitsPerFoot);
+        leftSensorGoal = RobotMap.drivetrain.frontLeftFalcon.getSelectedSensorPosition() - ftToTurn * RobotMap.encoderUnitsPerFoot;
+        rightSensorGoal = RobotMap.drivetrain.frontRightFalcon.getSelectedSensorPosition() + ftToTurn * RobotMap.encoderUnitsPerFoot;
+        RobotMap.drivetrain.frontLeftFalcon.set(ControlMode.MotionMagic, leftSensorGoal); //counterclockwise so right turns forward and left back
+        RobotMap.drivetrain.frontRightFalcon.set(ControlMode.MotionMagic, rightSensorGoal);
     }
 
     @Override
     public boolean isFinished() {
         //get drivetrain wheels within 0.1 ft of target before stopping
-        return Math.abs(RobotMap.drivetrain.frontLeftFalcon.getClosedLoopError()) < 0.1 * RobotMap.encoderUnitsPerFoot && Math.abs(RobotMap.drivetrain.frontRightFalcon.getClosedLoopError()) < 0.1 * RobotMap.encoderUnitsPerFoot;
+        return Math.abs(RobotMap.drivetrain.frontLeftFalcon.getSelectedSensorPosition() - leftSensorGoal) < 0.1 * RobotMap.encoderUnitsPerFoot && Math.abs(RobotMap.drivetrain.frontRightFalcon.getSelectedSensorPosition() - rightSensorGoal) < 0.1 * RobotMap.encoderUnitsPerFoot;
     }
 
     @Override

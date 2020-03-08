@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.commands.AwaitClimbCommand;
+import frc.robot.commands.OperatorClimbCommand;
 
 /** This class contains functions for controlling the climbing hook and climbing winch. */
 public class Climber implements Subsystem {
@@ -22,7 +22,7 @@ public class Climber implements Subsystem {
         climberMotorA.setNeutralMode(NeutralMode.Coast);
         climberMotorB.setNeutralMode(NeutralMode.Coast);
 
-        setDefaultCommand(new AwaitClimbCommand(this));
+        setDefaultCommand(new OperatorClimbCommand(this));
     }
 
     /** Sets the climbing winch speed. */

@@ -67,7 +67,15 @@ public class Drivetrain implements Subsystem {
 
     /** Drives using a differential (arcade) algorithm. */
     public void driveDifferential(double x, double y) {
-        driveController.arcadeDrive(y, x, true);
+        driveController.arcadeDrive(y * y * y, x * x * x, false);
+    }
+
+    /** Sets the position of all motor encoders to zero. */
+    public void zeroAllEncoders() {
+        frontLeftFalcon.getSensorCollection().setIntegratedSensorPosition(0, 20);
+        frontRightFalcon.getSensorCollection().setIntegratedSensorPosition(0, 20);
+        backLeftFalcon.getSensorCollection().setIntegratedSensorPosition(0, 20);
+        backRightFalcon.getSensorCollection().setIntegratedSensorPosition(0, 20);
     }
 
     /** Shuts off all of the drivetrain motors. */

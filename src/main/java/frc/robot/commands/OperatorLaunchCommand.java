@@ -32,9 +32,11 @@ public class OperatorLaunchCommand extends SequentialCommandGroup {
             CommandScheduler.getInstance().schedule(new SweepForTargetCommand());
         }
         if(RobotMap.joystick.getButton("Fire")) {
+            Feedback.setStatus("Launcher", "Firing (" + Launcher.launcherSpeed + " rps)");
             RobotMap.launcher.setShooterSpeed(Launcher.launcherSpeed);
         }
         else {
+            Feedback.setStatus("Launcher", "Idle (" + Launcher.launcherSpeed + " rps)");
             RobotMap.launcher.setShooterSpeed(0);
         }
     }
@@ -51,6 +53,7 @@ public class OperatorLaunchCommand extends SequentialCommandGroup {
 
     @Override
     public void end(boolean interrupted) {
+        Feedback.setStatus("Launcher", "Idle (" + Launcher.launcherSpeed + " rps)");
         RobotMap.limelight.setLEDsOn(true);
         RobotMap.launcher.setShooterSpeed(0);
     }
