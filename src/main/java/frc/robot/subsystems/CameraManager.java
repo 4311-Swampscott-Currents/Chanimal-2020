@@ -14,7 +14,11 @@ public class CameraManager implements Subsystem {
         cameras = new UsbCamera[2];
         cameras[0] = CameraServer.getInstance().startAutomaticCapture(0);
         cameras[1] = CameraServer.getInstance().startAutomaticCapture(1);
-        CameraServer.getInstance().getServer().setSource(cameras[0]);
+        
+        for(UsbCamera cam : cameras) {
+            cam.setResolution(320, 240);
+            cam.setFPS(20);
+        }
         
         setDefaultCommand(new OperatorSwapCamerasCommand(this));
     }

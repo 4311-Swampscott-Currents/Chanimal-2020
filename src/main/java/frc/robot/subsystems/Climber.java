@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.commands.OperatorClimbCommand;
@@ -14,6 +15,7 @@ public class Climber implements Subsystem {
     public WPI_VictorSPX climberMotorA = new WPI_VictorSPX(31);
     public WPI_VictorSPX climberMotorB = new WPI_VictorSPX(32);
     public WPI_TalonSRX hookMotor = new WPI_TalonSRX(33);
+    public DigitalInput hookLimitSwitch = new DigitalInput(9);
 
     public SpeedControllerGroup climberMotors = new SpeedControllerGroup(climberMotorA, climberMotorB);
 

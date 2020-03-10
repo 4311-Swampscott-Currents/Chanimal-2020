@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Feedback;
 import frc.robot.Robot;
@@ -21,7 +22,7 @@ public class OperatorClimbCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if(RobotMap.joystick.getButton("Climbing Hook Up")) {
+        if(RobotMap.joystick.getButton("Climbing Hook Up") && RobotMap.climber.hookLimitSwitch.get()) {
             RobotMap.climber.setHookMotorSpeed(RobotMap.climberHookMotorSpeed);
         }
         else if(RobotMap.joystick.getButton("Climbing Hook Down")) {
